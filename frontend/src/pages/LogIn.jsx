@@ -77,7 +77,7 @@ function LogIn() {
             <h1 className="[font-family:'Lobster'] text-[3rem] lg:text-[4.5rem] font-black font-[700] bg-gradient-to-r from-[#FF939B] via-[#F97A89] to-[#EF2A39] bg-clip-text text-transparent drop-shadow-[0_8px_32px_rgba(239,42,57,0.4)] mb-4 letter-spacing:2px">
               EatsyChat
             </h1>
-            <p className="text-gray-600 text-sm">Log in to start chattingF</p>
+            <p className="text-gray-600 text-lg">Log in to start chatting</p>
           </div>
 
           {/* Error Message */}
@@ -235,7 +235,7 @@ function LogIn() {
           </button>
 
           {/* Sign Up */}
-          <p className="text-center mt-6 text-sm text-gray-600">
+          <p className="text-center mt-6 text-lg text-gray-600">
             Already have an account?{" "}
             <a
               href="#"
