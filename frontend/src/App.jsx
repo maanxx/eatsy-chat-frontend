@@ -8,21 +8,22 @@ import {
 import { useChat } from "./context/ChatContext.jsx";
 import LogIn from "./pages/LogIn.jsx";
 import ChatLayout from "./components/ChatLayout.jsx";
+import Register from "./pages/Register.jsx";
 import ChatDashboard from "./pages/ChatDashboard.jsx"; // Will create
 
 import { useEffect } from "react";
 
 function ProtectedRoute({ children }) {
-  const { user } = useChat();
+  const { user, token } = useChat();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !token) {
       navigate("/login");
     }
-  }, [user, navigate]);
+  }, [user, token, navigate]);
 
-  if (!user) return null;
+  if (!user && !token) return null;
   return children;
 }
 
@@ -31,6 +32,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/login" element={<LogIn />} />
+        <Route path="/register" element={<Register />} />
         <Route
           path="/"
           element={

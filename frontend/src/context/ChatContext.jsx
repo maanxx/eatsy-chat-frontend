@@ -11,11 +11,13 @@ import { toast } from "react-hot-toast";
 
 const ChatContext = createContext();
 
-const SOCKET_SERVER = null; // Backend not running - disable socket
+const SOCKET_SERVER = "http://localhost:4000";
 
 const initialState = {
-  user: null,
   token: localStorage.getItem("token") || null,
+  user: localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null,
   socket: null,
   currentChat: null,
   chats: [],
@@ -29,6 +31,7 @@ function chatReducer(state, action) {
   switch (action.type) {
     case "LOGIN":
       localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
       return {
         ...state,
         user: action.payload.user,
@@ -36,6 +39,7 @@ function chatReducer(state, action) {
       };
     case "LOGOUT":
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
       state.socket?.disconnect();
       return initialState;
     case "SET_SOCKET":
@@ -76,6 +80,16 @@ function chatReducer(state, action) {
 
 export function ChatProvider({ children }) {
   const [state, dispatch] = useReducer(chatReducer, initialState);
+
+  // Load mock data when logged in
+  useEffect(() => {
+    if (state.user && !state.chats.length) {
+      // Load mock chats & messages
+      import("../data/mockChats.js").then(({ mockChats }) => {
+        dispatch({ type: "SET_CHATS", payload: mockChats });
+      });
+    }
+  }, [state.user]);
 
   // Socket disabled for frontend demo
   useEffect(() => {

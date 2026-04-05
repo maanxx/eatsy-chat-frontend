@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Search, MessageCircle, Users } from "lucide-react";
-import { mockChats } from "../data/mockChats.js";
 import { useChat } from "../context/ChatContext.jsx";
 import { useNavigate, useParams } from "react-router-dom";
+import NewGroupModal from "./NewGroupModal.jsx";
 
 const ChatList = () => {
-  const { currentChat } = useChat();
+  const { chats } = useChat();
   const navigate = useNavigate();
   const { chatId } = useParams();
   const [searchTerm, setSearchTerm] = useState("");
-  const [chats, setChats] = useState([]);
-
-  useEffect(() => {
-    setChats(mockChats);
-  }, []);
+  const [showNewGroup, setShowNewGroup] = useState(false);
 
   const filteredChats = chats.filter((chat) =>
-    chat.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    chat.name?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const selectChat = (chat) => {
@@ -86,7 +82,10 @@ const ChatList = () => {
       {/* Quick Actions */}
       <div className="p-4 border-t border-slate-100 bg-white/80 backdrop-blur">
         <div className="grid grid-cols-2 gap-3">
-          <button className="flex flex-col items-center p-3 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:shadow-lg transition-all group">
+          <button
+            onClick={() => setShowNewGroup(true)}
+            className="flex flex-col items-center p-3 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:shadow-lg transition-all group"
+          >
             <Users className="w-5 h-5 text-blue-500 mb-1 group-hover:scale-110 transition-transform" />
             <span className="text-xs font-semibold text-slate-700">
               Nhóm mới
@@ -100,6 +99,11 @@ const ChatList = () => {
           </button>
         </div>
       </div>
+
+      <NewGroupModal
+        isOpen={showNewGroup}
+        onClose={() => setShowNewGroup(false)}
+      />
     </div>
   );
 };

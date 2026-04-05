@@ -18,7 +18,7 @@ const ChatWindow = () => {
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  const { currentChat, sendMessage, startTyping, stopTyping, user } = useChat();
+  const { messages, user, sendMessage, startTyping, stopTyping } = useChat();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -29,28 +29,16 @@ const ChatWindow = () => {
   }, [localMessages]);
 
   useEffect(() => {
-    // Mock messages for current chat
-    if (chat && mockMessages[chat.id]) {
-      setLocalMessages(mockMessages[chat.id] || []);
+    // Use context messages
+    if (messages[chatId]) {
+      setLocalMessages(messages[chatId]);
     }
-  }, [chat]);
+  }, [messages, chatId]);
 
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (input.trim() && user) {
-      const newMessage = {
-        id: Date.now().toString(),
-        content: input.trim(),
-        sender: "You",
-        type: "text",
-        time: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        mine: true,
-      };
-      setLocalMessages((prev) => [...prev, newMessage]);
-      sendMessage(chat.id, input.trim());
+      sendMessage(chatId, input.trim());
       setInput("");
     }
   };
