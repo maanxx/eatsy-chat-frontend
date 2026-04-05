@@ -56,3 +56,12 @@ backend/prisma/dev.db
 # Frontend specific
 frontend/node_modules/
 frontend/dist/
+
+#node_modules
+node_modules/*
+
+# Prisma
+/prisma/migrations
+/prisma/dev.db
+
+TODO.md
