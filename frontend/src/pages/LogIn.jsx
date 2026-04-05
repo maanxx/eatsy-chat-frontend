@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useChat } from "../context/ChatContext.jsx";
+import toast from "react-hot-toast";
 import burgerBig from "../assets/burger-big.png";
 import burgerSmall from "../assets/burger-small.png";
 
@@ -8,6 +11,9 @@ function LogIn() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
+  const { login } = useChat();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,12 +34,25 @@ function LogIn() {
     }
 
     try {
-      // TODO: Replace with real API call
+      // Simulate API call
       console.log("Login attempt:", { email, password });
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      // Login success - redirect logic here
-      console.log("Login Successfully!");
+      // Mock user data - in real app, from API
+      const mockUser = {
+        id: "user1",
+        name: email.split("@")[0],
+        email,
+        role: "buyer", // or 'seller'
+        avatar:
+          "https://ui-avatars.com/api/?name=" +
+          encodeURIComponent(email.split("@")[0]),
+      };
+      const mockToken = "mock-jwt-token-" + Date.now();
+
+      login(mockUser, mockToken);
+      toast.success("Welcome to EatsyChat!");
+      navigate("/dashboard");
     } catch (err) {
       setError("Invalid email or password!");
     } finally {
@@ -70,7 +89,7 @@ function LogIn() {
       </div>
 
       {/* Form side */}
-        <div className="lg:w-1/2 flex items-center justify-center p-10 lg:p-16 order-1 lg:order-2">
+      <div className="lg:w-1/2 flex items-center justify-center p-10 lg:p-16 order-1 lg:order-2">
         <div className="w-full max-w-lg lg:max-w-xl bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl p-8 lg:p-12 border border-white/20">
           {/* Logo & Title */}
           <div className="text-center mb-8">
@@ -247,7 +266,7 @@ function LogIn() {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes fadeIn {
           from {
             opacity: 0;

@@ -1,1 +1,58 @@
-TODO.md
+# Root .gitignore for monorepo
+
+# Environment files
+.env*
+!.env.example
+
+# Dependencies
+**/node_modules/
+**/package-lock.json  # or yarn.lock
+
+# Builds
+**/dist/
+**/build/
+frontend/dist/
+backend/dist/
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Logs
+*.log
+logs/
+
+# Testing
+**/coverage/
+.coverage
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Prisma
+**/prisma/dev.db
+**/prisma/migrations/
+
+# Generated
+generated/
+**/__generated__/
+
+# Temp
+tmp/
+.cache
+.vite
+
+# Backend specific
+backend/node_modules/
+backend/prisma/dev.db
+
+# Frontend specific
+frontend/node_modules/
+frontend/dist/

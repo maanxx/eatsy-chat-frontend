@@ -24,5 +24,22 @@ dist-ssr
 *.sw?
 
 
-.env
-.env.example
+# Vite
+.cache
+.vite
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+
+# Env
+.env.local
+.env.*.local
+
+# Dist
+dist/
+
+# Debug
+npm-debug.log*
